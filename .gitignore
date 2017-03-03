@@ -26,8 +26,6 @@ dist
 *.fdb_latexmk
 *.fls
 dtx-style.sty
-thuthesis.cls
 thuthesis.cfg
 thuthesis.pdf
 main.pdf
-shuji.pdf

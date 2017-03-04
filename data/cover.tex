@@ -2,71 +2,23 @@
   %******************************
   % 注意：
   %   1. 配置里面不要出现空行
-  %   2. 不需要的配置信息可以删除
+  %   3. 配置后面的逗号“,” 必须保留
   %******************************
   %
-  %=====
-  % 秘级
-  %=====
-  secretlevel={密级},
+  catalognumber={分类号}, % 可以留空
+  %secretlevel={密级},
   secretyear={公开},
-  %
-  %=========
-  % 中文信息
-  %=========
+  uid={10028},
+  id={}, % 可以留空
   %当论文标题无需手动换行时，仅设置ctitle即可。否则需要分别设置。
-  ctitle={清华大学学位论文 \LaTeX\ 模板\\使用示例文档 v\version},%用于论文封面显示的论文题目，允许手动换行。
-  runninghead={清华大学学位论文 \LaTeX\ 模板使用示例文档 v\version},%设置页眉中的论文题目，尽量不要手动换行
-  cdegree={硕士},
-  cdepartment={计算机科学与技术系},
-  cmajor={计算机科学与技术},
-  cinterest={持久化内存系统},  
+  ctitle={清华大学学位论文 \LaTeX\ 模板\\使用示例文档},%用于论文封面显示的论文题目，允许手动换行。
+  runninghead={清华大学学位论文 \LaTeX\ 模板使用示例文档},%设置页眉中的论文题目，尽量不要手动换行
   cauthor={薛瑞尼},
   csupervisor={郑纬民教授},
-  % cassosupervisor={陈文光教授}, % 副指导老师
-  % ccosupervisor={某某某教授}, % 联合指导老师
+  cmajor={计算机科学与技术},
+  cinterest={持久化内存系统},
   % 日期自动使用当前时间，若需指定按如下方式修改：
-  % cdate={超新星纪元},
-  %
-  % 博士后专有部分
-  cfirstdiscipline={计算机科学与技术},
-  cseconddiscipline={系统结构},
-  postdoctordate={2009年7月——2011年7月},
-  id={}, % 可以留空
-  udc={UDC}, % 可以留空
-  uid={10028},
-  catalognumber={分类号}, % 可以留空
-  %
-  %=========
-  % 英文信息
-  %=========
-  etitle={An Introduction to \LaTeX{} Thesis Template of Tsinghua University v\version},
-  % 这块比较复杂，需要分情况讨论：
-  % 1. 学术型硕士
-  %    edegree：必须为Master of Arts或Master of Science（注意大小写）
-  %             “哲学、文学、历史学、法学、教育学、艺术学门类，公共管理学科
-  %              填写Master of Arts，其它填写Master of Science”
-  %    emajor：“获得一级学科授权的学科填写一级学科名称，其它填写二级学科名称”
-  % 2. 专业型硕士
-  %    edegree：“填写专业学位英文名称全称”
-  %    emajor：“工程硕士填写工程领域，其它专业学位不填写此项”
-  % 3. 学术型博士
-  %    edegree：Doctor of Philosophy（注意大小写）
-  %    emajor：“获得一级学科授权的学科填写一级学科名称，其它填写二级学科名称”
-  % 4. 专业型博士
-  %    edegree：“填写专业学位英文名称全称”
-  %    emajor：不填写此项
-  edegree={Doctor of Engineering},
-  emajor={Computer Science and Technology},
-  eauthor={Xue Ruini},
-  esupervisor={Professor Zheng Weimin},
-  eassosupervisor={Chen Wenguang},
-  % 日期自动生成，若需指定按如下方式修改：
-  % edate={December, 2005}
-  %
-  % 关键词用“英文逗号”分割
-  % ckeywords={\TeX, \LaTeX, CJK, 模板, 论文},
-  % ekeywords={\TeX, \LaTeX, CJK, template, thesis}
+  % cdate={2017年4月1日},
 }
 
 % 定义中英文摘要和关键字

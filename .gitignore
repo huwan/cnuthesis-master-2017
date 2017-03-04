@@ -25,7 +25,7 @@ dist
 *.hd
 *.fdb_latexmk
 *.fls
+*.synctex
 dtx-style.sty
-thuthesis.cfg
 thuthesis.pdf
 main.pdf

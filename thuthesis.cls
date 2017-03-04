@@ -58,13 +58,21 @@
 \DeclareBoolOption{arialtitle}
 \DeclareBoolOption{raggedbottom}
 \DeclareBoolOption{pifootnote}
+\DeclareBoolOption{doublepageprint}
 \DeclareDefaultOption{\PassOptionsToClass{\CurrentOption}{ctexbook}}
 \kvsetkeys{thu}{%
-  raggedbottom,
-  arialtitle}
+  raggedbottom%,arialtitle
+  }
 \ProcessKeyvalOptions*
 \PassOptionsToPackage{no-math}{fontspec}
-\LoadClass[a4paper,openany,UTF8,zihao=-4,scheme=plain]{ctexbook}
+
+\ifthu@doublepageprint
+  \LoadClass[a4paper,openright,twoside,UTF8,zihao=-4,scheme=plain]{ctexbook}
+\else
+  \LoadClass[a4paper,openany,oneside,UTF8,zihao=-4,scheme=plain]{ctexbook}
+\fi
+
+
 \ifthu@bachelor\relax\else
   \ifthu@master\relax\else
     \ifthu@doctor\relax\else
@@ -130,8 +138,8 @@
 \RequirePackage{geometry}
 \geometry{
   a4paper, % 210 * 297mm
-  hcentering,
   ignoreall,
+  %hcentering,
   nomarginpar}
 \ifthu@bachelor
   \geometry{
@@ -141,6 +149,14 @@
     textheight=220mm,
     bottom=37mm,
     footskip=17mm}
+\else \ifthu@master
+  \geometry{
+    top=25mm,
+    bottom=20mm,
+    left=25mm,
+    right=20mm,
+    headsep=5mm
+    }
 \else
   \geometry{
     left=30mm,
@@ -149,7 +165,7 @@
     textheight=237mm,
     bottom=29mm,
     footskip=6mm}
-\fi
+\fi\fi
 \RequirePackage{fancyhdr}
 \let\thu@cleardoublepage\cleardoublepage
 \newcommand{\thu@clearemptydoublepage}{%
@@ -174,6 +190,10 @@
   \abovedisplayshortskip=20bp \@plus 2bp \@minus 2bp
   \belowdisplayskip=\abovedisplayskip
   \belowdisplayshortskip=\abovedisplayshortskip}
+\setCJKfamilyfont{cusong}{STZhongsong}
+\newcommand{\cusong}{\CJKfamily{cusong}}
+\setCJKfamilyfont{xinwei}{STXinwei}
+\newcommand{\xinwei}{\CJKfamily{xinwei}}
 \def\thu@def@fontsize#1#2{%
   \expandafter\newcommand\csname #1\endcsname[1][1.3]{%
     \fontsize{#2}{##1\dimexpr #2}\selectfont}}
@@ -206,9 +226,11 @@
   \renewcommand{\footrulewidth}{0pt}}
 \fancypagestyle{thu@headings}{%
   \fancyhead{}
-  \fancyhead[C]{\wuhao\songti\leftmark}
+  %\fancyhead[C]{\wuhao\songti\leftmark}
+  \fancyhead[L]{\xiaowu\songti\thu@schoolname\thu@master@title}
+  \fancyhead[R]{\xiaowu\songti\ifx\thu@runninghead\empty\thu@ctitle\else\thu@runninghead\fi}
   \fancyfoot{}
-  \fancyfoot[C]{\wuhao\thepage}
+  \fancyfoot[C]{\xiaowu\thepage}
   \renewcommand{\headrulewidth}{0.4pt}
   \renewcommand{\footrulewidth}{0pt}}
 \ctexset{%
@@ -299,25 +321,25 @@
   chapter={
     afterindent=true,
     pagestyle={\ifthu@bachelor thu@plain\else thu@headings\fi},
-    beforeskip={\ifthu@bachelor 13bp\else 9bp\fi},
+    beforeskip={\ifthu@bachelor 13bp\else 0bp\fi},
     aftername=\hskip\ccwd,
-    afterskip={\ifthu@bachelor 20bp\else 24bp\fi},
-    format={\centering\thu@title@font\heiti\ifthu@bachelor\xiaosan\else\sanhao[1]\fi},
+    afterskip={\ifthu@bachelor 20bp\else 16.5bp\fi},
+    format={\centering\thu@title@font\cusong\ifthu@bachelor\xiaosan\else\erhao[1]\fi},
     nameformat=\relax,
     numberformat=\relax,
     titleformat=\thu@chapter@titleformat,
   },
   section={
     afterindent=true,
-    beforeskip={\ifthu@bachelor 25bp\else 24bp\fi\@plus 1ex \@minus .2ex},
-    afterskip={\ifthu@bachelor 12bp\else 6bp\fi \@plus .2ex},
-    format={\thu@title@font\heiti\sihao[1.429]},
+    beforeskip={\ifthu@bachelor 25bp\else 13bp\fi\@plus 1ex \@minus .2ex},
+    afterskip={\ifthu@bachelor 12bp\else 13bp\fi \@plus .2ex},
+    format={\thu@title@font\cusong\ifthu@bachelor\sihao[1.429]\else\sanhao[1.73]\fi},
   },
   subsection={
     afterindent=true,
-    beforeskip={\ifthu@bachelor 12bp\else 16bp\fi\@plus 1ex \@minus .2ex},
-    afterskip={6bp \@plus .2ex},
-    format={\thu@title@font\heiti\ifthu@bachelor\xiaosi[1.667]\else\banxiaosi[1.538]\fi},
+    beforeskip={\ifthu@bachelor 12bp\else 12bp\fi\@plus 1ex \@minus .2ex},
+    afterskip={3.2bp \@plus .2ex},
+    format={\thu@title@font\cusong\ifthu@bachelor\xiaosi[1.667]\else\xiaosi[1.33]\fi},
   },
   subsubsection={
     afterindent=true,
@@ -397,6 +419,7 @@
 \thu@def@term{secretlevel}
 \thu@def@term{secretyear}
 \thu@def@term{ctitle}
+\thu@def@term{runninghead}
 \thu@def@term{etitle}
 \thu@def@term{cauthor}
 \thu@def@term{csupervisor}
@@ -409,6 +432,7 @@
 \thu@def@term{cdegree}
 \thu@def@term{edegree}
 \thu@def@term{cdepartment}
+\thu@def@term{cinterest}
 \def\caffil{% for compatibility
   \ClassWarning{thuthesis}
     {'\string\caffil' is deprecated, please use '\string\cdepartment' instead.}{}%
@@ -432,6 +456,7 @@
 \thu@def@term{edate}
 \thu@def@term{id}
 \thu@def@term{udc}
+\thu@def@term{uid}
 \thu@def@term{catalognumber}
 \thu@def@term{cfirstdiscipline}
 \thu@def@term{cseconddiscipline}
@@ -454,10 +479,17 @@
 \thu@parse@keywords{ckeywords}
 \thu@parse@keywords{ekeywords}
 \def\thusetup{\kvsetkeys{thu}}
+\ifthu@postdoctor
 \newcommand\thu@underline[2][6em]{\hskip1pt\underline{\hb@xt@ #1{\hss#2\hss}}\hskip3pt}
+\else
+\newcommand\thu@underline[2][6em]{\hskip1pt{\hb@xt@ #1{\hss#2\hss}}\hskip3pt}
+\fi
+
 \newlength{\thu@title@width}
+
 \newcommand{\thu@put@title}[2][\thu@title@width]{%
   \begin{CJKfilltwosides}{#1}#2\end{CJKfilltwosides}}
+
 \def\thu@first@titlepage{%
   \ifthu@postdoctor\thu@first@titlepage@postdoctor\else\thu@first@titlepage@other\fi}
 \newcommand{\thu@first@titlepage@postdoctor}{
@@ -510,8 +542,8 @@
 \newcommand{\thu@first@titlepage@other}{
   \begin{center}
     \vspace*{-1.6cm}
-    \parbox[b][2.4cm][t]{\textwidth}{%
-      \ifthu@secret{\heiti\sanhao\thu@secretlevel\thu@secret@content}\else\rule{1cm}{0cm}\fi}
+%    \parbox[b][2.4cm][t]{\textwidth}{%
+%      \ifthu@secret{\heiti\sanhao\thu@secretlevel\thu@secret@content}\else\rule{1cm}{0cm}\fi}
     \ifthu@bachelor
       \vskip0.45cm
       {\includegraphics{tsinghua}}
@@ -531,15 +563,25 @@
       \CJKunderline*{\thu@ctitle}}%
       \vskip1.3cm
     \else
-      \vskip0.8cm
-      \parbox[t][9cm][t]{\paperwidth-8cm}{
-      \renewcommand{\baselinestretch}{1.3}
-      \begin{center}
-      \yihao[1.2]{\sffamily\heiti\thu@ctitle}\par
-      \par\vskip 18bp
-      \xiaoer[1] \textrm{\thu@apply}
-      \end{center}}
+    \vskip1cm
+    \parbox[t][1.16cm][t]{\textwidth}{
+    \begingroup\cusong\wuhao[1.5]%
+%    \thu@put@title{\thu@catalog@number@title}\thu@title@sep\thu@underline\thu@catalognumber\hfill%
+    \hspace*{1em}\thu@catalog@number@title\thu@title@sep\thu@underline\thu@catalognumber\hfill%
+    \setlength{\thu@title@width}{3em}
+    \thu@put@title{\thu@secretlevel}\thu@title@sep\thu@underline\thu@secret@content\par
+    \setlength{\thu@title@width}{4em}
+    \thu@put@title{\thu@university@number@title}\thu@title@sep\thu@underline\thu@uid\hfill%
+    \setlength{\thu@title@width}{3em}
+    \thu@put@title{\thu@id@title}\thu@title@sep\thu@underline\thu@id\par\endgroup
+    }
+    \vskip2.2cm
+    \begingroup
+      \parbox[t][1.49cm][t]{\textwidth}{\centering\xinwei\xiaochu\thu@schoolname\thu@master@title}\par\vskip3.09cm
+      \parbox[t][3.3cm][t]{\textwidth}{\centering\kaishu\yihao[1.5]\thu@ctitle}\par\vskip2.2cm
+    \endgroup
     \fi
+
     \ifthu@bachelor
       \vskip1cm
       \parbox[t][7.0cm][t]{\textwidth}{%
@@ -567,39 +609,32 @@
            \end{tabular}
         }}
     \else
-      \vskip 5bp
-      \parbox[t][7.8cm][t]{\textwidth}{{\sanhao[1.5]
-        \begin{center}\fangsong
-          \setlength{\thu@title@width}{5em}
+%      \vskip 5bp
+      \parbox[t][4.4cm][t]{\textwidth}{{\xiaosan[1.5]
+        \begin{center}\songti
+          \setlength{\thu@title@width}{4em}
           \setlength{\extrarowheight}{4pt}
           \ifxetex % todo: ugly codes
             \begin{tabular}{p{\thu@title@width}@{}c@{\extracolsep{8pt}}l}
           \else
             \begin{tabular}{p{\thu@title@width}c@{\extracolsep{4pt}}l}
           \fi
-              \thu@put@title{\thu@department@title}  & \thu@title@sep
-                & {\ziju{0.1875}\thu@cdepartment}\\
-              \thu@put@title{\thu@major@title}       & \thu@title@sep
-                & {\ziju{0.1875}\thu@cmajor}\\
-              \thu@put@title{\thu@author@title}      & \thu@title@sep
-                & {\ziju{0.6875}\thu@cauthor}\\
-              \thu@put@title{\thu@supervisor@title}  & \thu@title@sep
-                & {\ziju{0.6875}\thu@csupervisor}\\
-              \ifx\thu@cassosupervisor\@empty\else
-                \thu@put@title{\thu@assosuper@title} & \thu@title@sep
-                & {\ziju{0.6875}\thu@cassosupervisor}\\
-              \fi
-              \ifx\thu@ccosupervisor\@empty\else
-                \hfill\makebox[0pt][r]{\thu@cosuper@title} & \thu@title@sep
-                & {\ziju{0.6875}\thu@ccosupervisor}\\
-              \fi
+              \thu@put@title{\thu@author@title}      & \thu@title@sep\hskip3bp
+                & \thu@cauthor\\
+              \thu@put@title{\thu@supervisor@title}  & \thu@title@sep\hskip3bp
+                & \thu@csupervisor\\
+              \thu@put@title{\thu@major@title}       & \thu@title@sep\hskip5bp
+                & \thu@cmajor\\
+              \thu@put@title{\thu@interest@title}  & \thu@title@sep\hskip5bp
+                & \thu@cinterest\\
             \end{tabular}
         \end{center}}}
       \fi
      \begin{center}
        {\ifthu@bachelor\vskip-1.0cm\hskip-1.2cm\xiaosi\else%
-         \vskip-0.5cm\sanhao\fi%
-         \songti\thu@cdate}
+         \vskip3.3cm\xiaosan\fi%
+         \cusong\thu@cdate
+         }
      \end{center}
     \end{center}} % end of titlepage
 \newcommand{\thu@engcover}{%
@@ -700,11 +735,13 @@
   \begin{titlepage}
     \thu@first@titlepage
     \ifthu@bachelor\relax\else
-      \ifthu@postdoctor\relax\else
-        \cleardoublepage\thu@engcover
-    \fi\fi
+      \ifthu@master\relax\else
+        \ifthu@postdoctor\relax\else
+          \cleardoublepage\thu@engcover
+    \fi\fi\fi
     \ifthu@postdoctor\relax\else%
-      \ifthu@bachelor\clearpage\else\cleardoublepage\fi%
+      %\ifthu@bachelor\clearpage\else\cleardoublepage\fi%
+      \if@openright\cleardoublepage\else\clearpage\fi
       \IfNoValueTF{#1}{%
         \ifthu@bachelor\thu@authorization@mk\else%
           \begin{list}{}{%
@@ -717,7 +754,7 @@
           \end{list}%
         \fi%
       }{%
-        \includepdf{#1}%
+        \includepdf[pages=-]{#1}%
       }%
     \fi
   \end{titlepage}
@@ -732,7 +769,8 @@
     \box\thu@kw#2\par
   \endgroup}
 \newcommand{\thu@makeabstract}{%
-  \ifthu@bachelor\clearpage\else\cleardoublepage\fi
+  %\ifthu@bachelor\clearpage\else\cleardoublepage\fi
+  \if@openright\cleardoublepage\else\clearpage\fi
   \thu@chapter*[]{\cabstractname} % no tocline
   \ifthu@bachelor
     \pagestyle{thu@plain}
@@ -770,6 +808,7 @@
   }
   {
     \ifthu@postdoctor\relax\else%
+      \ifthu@master\relax\else%
       \IfNoValueTF{#1}{%
         \thu@chapter*{\thu@declarename}
         \par{\xiaosi\parindent2em\thu@declaretext}\vskip2cm
@@ -780,7 +819,7 @@
           \phantomsection\addcontentsline{toc}{chapter}{\thu@declarename}%
         }]{#1}%
       }%
-    \fi
+    \fi\fi
   }
 \let\ack\acknowledgement
 \let\endack\endacknowledgement
